@@ -9,6 +9,8 @@ import android.widget.Button
 import android.widget.ImageView
 
 
+private const val LAST_CHOOSE_IMAGE="image"
+
 class CakeFragment : Fragment() {
 
     lateinit var cakeImageView: ImageView
@@ -25,6 +27,7 @@ class CakeFragment : Fragment() {
 
 
         )
+    var lastChooseImageRes=0
 
 
     override fun onCreateView(
@@ -38,13 +41,26 @@ class CakeFragment : Fragment() {
         cakeImageView=view.findViewById(R.id.cake_image_view)
         cakeButton=view.findViewById(R.id.cake_button)
 
+
+        if(savedInstanceState != null)
+            cakeImageView.setImageResource(lastChooseImageRes)
+
+
         cakeButton.setOnClickListener{
 
-            cakeImageView.setImageResource(cakeImageList.random())
+            lastChooseImageRes=cakeImageList.random()
+
+            cakeImageView.setImageResource(lastChooseImageRes)
         }
+
 
 
         return view
     }
 
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(LAST_CHOOSE_IMAGE,lastChooseImageRes)
+    }
 }
